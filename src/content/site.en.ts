@@ -16,7 +16,7 @@ export const site = {
     services: 'Planning • Technical Review • Supervision • Commissioning',
   },
   construction: 'Website under construction — launching soon.',
-  langSwitch: { label: 'עברית', href: '/personal-website-igor/he/' },
+  langSwitch: { label: 'עברית' }, // href computed from BASE_URL in the component
   contact: {
     phone: '000-0000-000', // TODO: real number (see CONTENT-TODO.md)
     email: 'contact@example.com', // TODO

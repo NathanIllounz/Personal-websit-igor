@@ -2,12 +2,15 @@
 // Phase 0 placeholder hero — replaced by the full "Descent" hero in Phase 1–2.
 interface Props {
   site: {
+    locale: string;
     hero: { name: string; title: string; tagline: string; services: string };
     construction: string;
-    langSwitch: { label: string; href: string };
+    langSwitch: { label: string };
   };
 }
 const { site } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const langHref = site.locale === 'en' ? `${base}/he/` : `${base}/`;
 ---
 
 <main class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
@@ -20,7 +23,7 @@ const { site } = Astro.props;
   </span>
 
   <a
-    href={site.langSwitch.href}
+    href={langHref}
     class="absolute top-6 end-6 border border-concrete-500 px-3 py-1 text-sm tracking-widest text-concrete-300 transition-colors hover:border-amber hover:text-amber"
   >
     {site.langSwitch.label}

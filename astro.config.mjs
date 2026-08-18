@@ -2,10 +2,10 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
-// GitHub Pages: https://nathanillounz.github.io/personal-website-igor
+// GitHub Pages: https://nathanillounz.github.io/Personal-websit-igor
 export default defineConfig({
   site: 'https://nathanillounz.github.io',
-  base: '/personal-website-igor',
+  base: '/Personal-websit-igor',
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'he'],
