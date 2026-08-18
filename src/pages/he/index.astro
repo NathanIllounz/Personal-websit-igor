@@ -1,9 +1,25 @@
 ---
 import Base from '../../layouts/Base.astro';
-import HeroPlaceholder from '../../components/HeroPlaceholder.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import About from '../../components/About.astro';
+import Manufacturers from '../../components/Manufacturers.astro';
+import Services from '../../components/Services.astro';
+import Why from '../../components/Why.astro';
+import Projects from '../../components/Projects.astro';
+import Contact from '../../components/Contact.astro';
 import { site } from '../../content/site.he';
 ---
 
 <Base locale={site.locale} dir={site.dir} title={site.meta.title} description={site.meta.description}>
-  <HeroPlaceholder site={site} />
+  <Header site={site} />
+  <main>
+    <Hero site={site} />
+    <About site={site} />
+    <Manufacturers site={site} />
+    <Services site={site} />
+    <Why site={site} />
+    <Projects site={site} />
+    <Contact site={site} />
+  </main>
 </Base>

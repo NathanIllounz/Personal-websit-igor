@@ -1,0 +1,27 @@
+---
+import Section from './Section.astro';
+import type { Site } from '../content/types';
+
+interface Props {
+  site: Site;
+}
+const { site } = Astro.props;
+---
+
+<Section id="manufacturers" level={site.manufacturers.level} ghost="2" tone="dark">
+  <h2 class="max-w-3xl font-[family-name:var(--font-display)] text-3xl font-bold text-balance sm:text-4xl">
+    {site.manufacturers.heading}
+  </h2>
+  <div class="mt-8 max-w-3xl space-y-5 text-lg leading-relaxed text-concrete-100">
+    {site.manufacturers.intro.map((p) => <p>{p}</p>)}
+  </div>
+
+  <ul class="mt-12 grid grid-cols-2 gap-px border border-concrete-700 bg-concrete-700 sm:grid-cols-3 lg:grid-cols-5">
+    {site.manufacturers.items.map((m) => (
+      <li class="bg-ink p-5">
+        <p class="font-[family-name:var(--font-display)] font-semibold" dir="ltr">{m.name}</p>
+        <p class="mt-1 text-sm text-concrete-500">{m.country}</p>
+      </li>
+    ))}
+  </ul>
+</Section>

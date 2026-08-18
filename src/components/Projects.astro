@@ -1,0 +1,59 @@
+---
+import Section from './Section.astro';
+import type { Site } from '../content/types';
+
+interface Props {
+  site: Site;
+}
+const { site } = Astro.props;
+---
+
+<Section id="projects" level={site.projects.level} ghost="5" tone="dark">
+  <h2 class="font-[family-name:var(--font-display)] text-3xl font-bold sm:text-4xl">
+    {site.projects.heading}
+  </h2>
+  <p class="mt-3 font-[family-name:var(--font-display)] text-xl text-amber">{site.projects.sub}</p>
+  <div class="mt-8 max-w-3xl space-y-5 text-lg leading-relaxed text-concrete-100">
+    {site.projects.intro.map((p) => <p>{p}</p>)}
+  </div>
+
+  <div class="mt-12 border border-concrete-700 p-8">
+    <p class="text-xs tracking-[0.3em] text-concrete-500 uppercase">{site.projects.roleLabel}</p>
+    <p class="mt-3 font-[family-name:var(--font-display)] text-xl font-semibold">
+      {site.projects.roleTitle}
+    </p>
+    <p class="mt-3 max-w-3xl leading-relaxed text-concrete-300">{site.projects.roleBody}</p>
+  </div>
+
+  <!-- Photo galleries land here in Phase 3 (see PLAN.md) -->
+  <div class="mt-12 grid gap-px border border-concrete-700 bg-concrete-700 lg:grid-cols-3">
+    {site.projects.items.map((p) => (
+      <article class="bg-ink p-8">
+        <h3 class="text-sm tracking-[0.3em] text-concrete-300 uppercase">{p.city}</h3>
+        <p class="mt-6 font-[family-name:var(--font-display)] text-6xl font-bold text-amber">
+          {p.spaces}
+        </p>
+        <p class="mt-1 text-xs tracking-[0.25em] text-concrete-500 uppercase">
+          {site.projects.spacesLabel}
+        </p>
+        <dl class="mt-8 space-y-1 text-sm text-concrete-300">
+          <dd>{p.system}</dd>
+          <dd>{p.company}</dd>
+          <dd class="text-concrete-500">{p.years}</dd>
+        </dl>
+      </article>
+    ))}
+  </div>
+
+  <div class="mt-12 border-t border-concrete-700 pt-10 text-center">
+    <p class="font-[family-name:var(--font-display)] text-6xl font-bold sm:text-7xl">
+      {site.projects.totalValue}
+    </p>
+    <p class="mt-2 text-sm tracking-[0.3em] text-concrete-300 uppercase">
+      {site.projects.totalLabel}
+    </p>
+    <p class="mx-auto mt-6 max-w-2xl leading-relaxed text-concrete-300">
+      {site.projects.totalClosing}
+    </p>
+  </div>
+</Section>

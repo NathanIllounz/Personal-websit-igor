@@ -1,0 +1,49 @@
+---
+// RETRIEVAL — light tone (back to street level).
+import Section from './Section.astro';
+import type { Site } from '../content/types';
+
+interface Props {
+  site: Site;
+}
+const { site } = Astro.props;
+const c = site.contact;
+const telHref = `tel:${c.phone.replace(/[^+\d]/g, '')}`;
+const waHref = `https://wa.me/${c.whatsapp.replace(/[^\d]/g, '')}`;
+const buttons = [
+  { href: telHref, label: c.phoneLabel, value: c.phone, ltr: true },
+  { href: waHref, label: c.whatsappLabel, value: c.whatsapp, ltr: true },
+  { href: `mailto:${c.email}`, label: c.emailLabel, value: c.email, ltr: true },
+  { href: c.linkedin, label: c.linkedinLabel, value: 'Igor Gabriielian', ltr: true },
+];
+---
+
+<Section id="contact" level={c.level} ghost="0" tone="light">
+  <h2 class="font-[family-name:var(--font-display)] text-3xl font-bold text-balance sm:text-5xl">
+    {c.heading}
+  </h2>
+  <p class="mt-6 max-w-2xl text-lg leading-relaxed text-concrete-700">{c.sub}</p>
+
+  <div class="mt-12 grid gap-px border border-concrete-300 bg-concrete-300 sm:grid-cols-2 lg:grid-cols-4">
+    {buttons.map((b) => (
+      <a href={b.href} class="group bg-paper p-6 transition-colors hover:bg-ink">
+        <p class="text-xs tracking-[0.3em] text-concrete-500 uppercase group-hover:text-amber">
+          {b.label}
+        </p>
+        <p
+          class="mt-3 font-[family-name:var(--font-display)] font-semibold break-all group-hover:text-paper"
+          dir={b.ltr ? 'ltr' : undefined}
+        >
+          {b.value}
+        </p>
+      </a>
+    ))}
+  </div>
+
+  <footer class="mt-24 flex flex-col items-center gap-3 border-t border-concrete-300 pt-8 text-center">
+    <p class="font-[family-name:var(--font-display)] text-lg font-bold tracking-[0.2em]">
+      IG<span class="text-amber">.</span>
+    </p>
+    <p class="text-sm text-concrete-500">{c.footer}</p>
+  </footer>
+</Section>
