@@ -1,0 +1,47 @@
+---
+// Phase 0 placeholder hero — replaced by the full "Descent" hero in Phase 1–2.
+interface Props {
+  site: {
+    hero: { name: string; title: string; tagline: string; services: string };
+    construction: string;
+    langSwitch: { label: string; href: string };
+  };
+}
+const { site } = Astro.props;
+---
+
+<main class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
+  <!-- ghost level marking (blueprint texture, see PLAN.md §3) -->
+  <span
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 flex items-center justify-center font-[family-name:var(--font-display)] text-[40vw] font-bold text-concrete-700/20 select-none"
+  >
+    L0
+  </span>
+
+  <a
+    href={site.langSwitch.href}
+    class="absolute top-6 end-6 border border-concrete-500 px-3 py-1 text-sm tracking-widest text-concrete-300 transition-colors hover:border-amber hover:text-amber"
+  >
+    {site.langSwitch.label}
+  </a>
+
+  <div class="relative z-10 max-w-3xl">
+    <p class="mb-6 h-px w-24 bg-amber mx-auto"></p>
+    <h1
+      class="font-[family-name:var(--font-display)] text-4xl font-bold tracking-[0.15em] sm:text-6xl"
+    >
+      {site.hero.name}
+    </h1>
+    <p class="mt-6 text-lg text-concrete-100 sm:text-xl">{site.hero.title}</p>
+    <p class="mt-3 font-[family-name:var(--font-display)] text-amber">
+      {site.hero.tagline}
+    </p>
+    <p class="mt-8 text-sm tracking-[0.25em] text-concrete-300 uppercase">
+      {site.hero.services}
+    </p>
+    <p class="mt-16 text-xs tracking-widest text-concrete-500 uppercase">
+      {site.construction}
+    </p>
+  </div>
+</main>

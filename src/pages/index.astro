@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroPlaceholder from '../components/HeroPlaceholder.astro';
+import { site } from '../content/site.en';
+---
+
+<Base locale={site.locale} dir={site.dir} title={site.meta.title} description={site.meta.description}>
+  <HeroPlaceholder site={site} />
+</Base>
