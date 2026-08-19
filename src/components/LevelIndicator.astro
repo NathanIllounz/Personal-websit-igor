@@ -1,0 +1,57 @@
+---
+// Elevator-style level panel (desktop only). The car marker (#level-car)
+// is moved between levels by src/scripts/scroll.ts as the user scrolls.
+import type { Site } from '../content/types';
+
+interface Props {
+  site: Site;
+}
+const { site } = Astro.props;
+const levels = [
+  { id: 'top', label: '0', name: site.hero.level },
+  { id: 'about', label: '−1', name: site.nav.about },
+  { id: 'manufacturers', label: '−2', name: site.nav.manufacturers },
+  { id: 'services', label: '−3', name: site.nav.services },
+  { id: 'why', label: '−4', name: site.nav.why },
+  { id: 'projects', label: '−5', name: site.nav.projects },
+  { id: 'contact', label: 'R', name: site.nav.contact },
+];
+---
+
+<nav
+  id="level-indicator"
+  aria-label={site.nav.contact === 'Contact' ? 'Site levels' : 'מפלסי האתר'}
+  class="fixed end-5 top-1/2 z-40 hidden -translate-y-1/2 lg:block"
+>
+  <div class="relative flex flex-col border border-paper/15 bg-ink/85 backdrop-blur">
+    <span id="level-car" aria-hidden="true" class="absolute -start-9 top-0 text-amber">
+      <svg
+        width="26"
+        height="15"
+        viewBox="0 0 26 15"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="rtl:-scale-x-100"
+      >
+        <path d="M1 11 V8.5 L4.5 7.5 L8 3.5 H15.5 L19.5 7.5 H25 V11 H21.5" />
+        <path d="M11.5 11 H14.5" />
+        <circle cx="8" cy="11.5" r="2.2" />
+        <circle cx="18" cy="11.5" r="2.2" />
+      </svg>
+    </span>
+    {levels.map((l) => (
+      <a
+        href={`#${l.id}`}
+        data-level-link
+        aria-label={l.name}
+        title={l.name}
+        class="flex h-9 w-9 items-center justify-center border-b border-paper/10 font-[family-name:var(--font-display)] text-[11px] font-semibold text-concrete-300 transition-colors last:border-b-0 hover:text-paper"
+      >
+        {l.label}
+      </a>
+    ))}
+  </div>
+</nav>

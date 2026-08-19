@@ -16,7 +16,7 @@ const { site } = Astro.props;
   >
   </div>
 
-  <div class="relative z-10 mx-auto max-w-5xl">
+  <div class="section-inner relative z-10 mx-auto max-w-5xl">
     <p class="mb-10 inline-flex items-center gap-3 border border-concrete-300 px-3 py-1 text-xs tracking-[0.3em] text-concrete-500 uppercase">
       <span class="inline-block size-1.5 bg-amber"></span>
       {site.hero.level}
@@ -42,7 +42,7 @@ const { site } = Astro.props;
       {site.hero.stats.map((s) => (
         <div class="bg-paper p-6">
           <dt class="sr-only">{s.label}</dt>
-          <dd class="font-[family-name:var(--font-display)] text-2xl font-bold sm:text-3xl">
+          <dd data-countup class="font-[family-name:var(--font-display)] text-2xl font-bold sm:text-3xl">
             {s.value}
           </dd>
           <dd class="mt-2 text-sm text-concrete-500">{s.label}</dd>

@@ -30,7 +30,7 @@ const { site } = Astro.props;
     {site.projects.items.map((p) => (
       <article class="bg-ink p-8">
         <h3 class="text-sm tracking-[0.3em] text-concrete-300 uppercase">{p.city}</h3>
-        <p class="mt-6 font-[family-name:var(--font-display)] text-6xl font-bold text-amber">
+        <p data-countup class="mt-6 font-[family-name:var(--font-display)] text-6xl font-bold text-amber">
           {p.spaces}
         </p>
         <p class="mt-1 text-xs tracking-[0.25em] text-concrete-500 uppercase">
@@ -46,7 +46,7 @@ const { site } = Astro.props;
   </div>
 
   <div class="mt-12 border-t border-concrete-700 pt-10 text-center">
-    <p class="font-[family-name:var(--font-display)] text-6xl font-bold sm:text-7xl">
+    <p data-countup class="font-[family-name:var(--font-display)] text-6xl font-bold sm:text-7xl">
       {site.projects.totalValue}
     </p>
     <p class="mt-2 text-sm tracking-[0.3em] text-concrete-300 uppercase">

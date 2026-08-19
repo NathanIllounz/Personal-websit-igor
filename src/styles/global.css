@@ -21,6 +21,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Lenis drives scrolling when active — native smooth would fight it. */
+html.lenis {
+  scroll-behavior: auto;
+}
+
+/* Active level in the elevator panel (set by scripts/scroll.ts). */
+[data-level-link][data-active='true'] {
+  color: var(--color-amber);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
