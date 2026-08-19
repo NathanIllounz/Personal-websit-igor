@@ -1,0 +1,34 @@
+---
+// "The Build" — fixed photographic background: one construction stage per
+// level, crossfading with a perspective dip as the visitor descends
+// (scripts/scroll.ts drives it). Frames sliced from the user-supplied
+// AI-generated construction-stage collages (see src/assets/build/).
+// Desktop-only + reduced-motion-safe via CSS in global.css.
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+const modules = import.meta.glob<{ default: ImageMetadata }>('../assets/build/stage-*.jpg', {
+  eager: true,
+});
+const stages = await Promise.all(
+  Object.keys(modules)
+    .sort()
+    .map((k) => getImage({ src: modules[k]!.default, format: 'webp', quality: 78 }))
+);
+---
+
+<div id="build-viewport" aria-hidden="true">
+  <div id="build-scene">
+    {stages.map((s, i) => (
+      <img
+        src={s.src}
+        alt=""
+        class="build-stage"
+        data-stage={i + 1}
+        loading={i === 0 ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    ))}
+  </div>
+  <div id="build-overlay"></div>
+</div>

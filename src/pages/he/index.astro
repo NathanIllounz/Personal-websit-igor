@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import LevelIndicator from '../../components/LevelIndicator.astro';
-import TowerScene from '../../components/TowerScene.astro';
+import BuildScene from '../../components/BuildScene.astro';
 import Hero from '../../components/Hero.astro';
 import About from '../../components/About.astro';
 import Manufacturers from '../../components/Manufacturers.astro';
@@ -20,7 +20,7 @@ import { site } from '../../content/site.he';
   description={site.meta.description}
   skipLabel={site.ui.skipToContent}
 >
-  <TowerScene />
+  <BuildScene />
   <Header site={site} />
   <LevelIndicator site={site} />
   <main id="main">

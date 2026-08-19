@@ -80,45 +80,32 @@ function initCountUps() {
   });
 }
 
-// The Cutaway: the fixed background tower scene descends one floor per
-// section with a perspective dip; active floor lights up, lift rides along.
-function initTowerScene() {
-  const scene = document.getElementById('tower-scene');
-  const lift = document.getElementById('scene-lift');
-  if (!scene || !lift) return;
+// The Build: fixed photographic backdrop — each level descent crossfades to
+// the next construction stage with a perspective dip (the 3D transition).
+function initBuildScene() {
+  const scene = document.getElementById('build-scene');
+  if (!scene) return;
+  const stages = Array.from(scene.querySelectorAll<HTMLImageElement>('.build-stage'));
+  if (!stages.length) return;
 
-  const FLOOR_SVG = 520; // must match TowerScene.astro
-  const SVG_W = 1600;
-  const floors = Array.from(scene.querySelectorAll<SVGGElement>('.scene-floor'));
-  const floorPx = () => (scene.clientWidth / SVG_W) * FLOOR_SVG;
-  const camY = (floor: number) => window.innerHeight * 0.55 - (floor + 0.5) * floorPx();
-
-  let current = 0;
-  const liftPos = { y: -FLOOR_SVG };
+  // section index → stage index (0-based). Hero shows stage 1 faintly behind
+  // the paper hero; contact keeps the last stage (also hidden behind paper).
+  const stageFor = (i: number) => Math.max(0, Math.min(i - 1, stages.length - 1));
 
   const goTo = (i: number) => {
-    // sections: 0 street … 5 projects; contact stays on the last floor
-    const floor = Math.max(0, Math.min(i, 5));
-    current = floor;
+    const s = stageFor(i);
+    stages.forEach((img, k) => img.setAttribute('data-active', String(k === s)));
+    // camera dip: slight tilt + push-in that settles — mechanical, no bounce
     const tl = gsap.timeline({ defaults: { overwrite: 'auto' } });
-    tl.to(scene, { y: camY(floor), duration: 1.1, ease: 'power2.inOut' }, 0)
-      .to(scene, { rotateX: 6, duration: 0.55, ease: 'power2.in' }, 0)
-      .to(scene, { rotateX: 0, duration: 0.55, ease: 'power2.out' }, 0.55)
-      .to(
-        liftPos,
-        {
-          y: (floor - 1) * FLOOR_SVG,
-          duration: 1.1,
-          ease: 'power2.inOut',
-          onUpdate: () => lift.setAttribute('transform', `translate(0 ${liftPos.y})`),
-        },
-        0
-      );
-    floors.forEach((g) => g.setAttribute('data-active', String(g.dataset.floor === String(floor))));
+    tl.fromTo(
+      scene,
+      { rotateX: 0, scale: 1 },
+      { rotateX: 5, scale: 1.02, duration: 0.5, ease: 'power2.in' },
+      0
+    ).to(scene, { rotateX: 0, scale: 1, duration: 0.6, ease: 'power2.out' }, 0.5);
   };
 
-  gsap.set(scene, { y: camY(0) });
-  lift.setAttribute('transform', `translate(0 ${liftPos.y})`);
+  stages[0]?.setAttribute('data-active', 'true');
 
   SECTIONS.forEach((id, i) => {
     const el = document.getElementById(id);
@@ -131,10 +118,6 @@ function initTowerScene() {
         if (self.isActive) goTo(i);
       },
     });
-  });
-
-  ScrollTrigger.addEventListener('refreshInit', () => {
-    gsap.set(scene, { y: camY(current) });
   });
 }
 
@@ -187,11 +170,11 @@ function init() {
   // Run each init as its own task after the load event: keeps main-thread
   // work out of the startup window (TBT) and splits it into short tasks.
   const queue: Array<() => void> = [initSmoothScroll, initReveals, initCountUps];
-  // The elevator/car + Cutaway scene are desktop refinements — phones keep it
+  // The elevator/car + Build scene are desktop refinements — phones keep it
   // simple (CLAUDE.md rule 5).
   if (window.matchMedia('(min-width: 1024px)').matches) {
     queue.push(initElevator);
-    queue.push(initTowerScene);
+    queue.push(initBuildScene);
   }
   queue.push(() => window.addEventListener('resize', () => ScrollTrigger.refresh()));
 

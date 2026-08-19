@@ -48,40 +48,51 @@ html.lenis {
 /* Scroll hint arrow is intentionally static: any load-time animation in the
    viewport tanks the Speed Index metric under mobile CPU simulation. */
 
-/* ── The Cutaway background scene ──────────────────────────────────────────
-   Fixed behind the dark sections; the camera (translate + rotateX dip) is
-   driven by scripts/scroll.ts. Desktop-only, motion-safe. */
-#tower-viewport {
+/* ── The Build background scene ────────────────────────────────────────────
+   Fixed photographic backdrop behind the dark sections: one construction
+   stage per level, crossfaded with a perspective dip by scripts/scroll.ts.
+   Desktop-only, motion-safe. */
+#build-viewport {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  perspective: 1200px;
+  perspective: 1100px;
   pointer-events: none;
+  background: var(--color-ink);
 }
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  #tower-viewport {
+  #build-viewport {
     display: block;
   }
 }
-#tower-scene {
+#build-scene {
   position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0.4;
+  inset: 0;
   will-change: transform;
-  transform-origin: 50% 50%;
+  transform-origin: 50% 60%;
 }
-.scene-floor .floor-light {
-  opacity: 0.12;
-  transition: opacity 0.6s ease;
+.build-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.08);
+  filter: blur(2px) brightness(0.85) saturate(0.7);
+  transition: opacity 1s ease;
 }
-.scene-floor[data-active='true'] .floor-light {
-  opacity: 0.9;
+.build-stage[data-active='true'] {
+  opacity: 1;
 }
-#scene-lift {
-  will-change: transform;
+#build-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(17, 18, 20, 0.55) 0%, rgba(17, 18, 20, 0.82) 70%),
+    linear-gradient(to bottom, rgba(17, 18, 20, 0.9), rgba(17, 18, 20, 0.62) 30%, rgba(17, 18, 20, 0.62) 70%, rgba(17, 18, 20, 0.9));
 }
 
 /* Content sits above the scene */
