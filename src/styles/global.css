@@ -31,6 +31,12 @@ html.lenis {
   color: var(--color-amber);
 }
 
+/* Visible focus everywhere, in the brand accent. */
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

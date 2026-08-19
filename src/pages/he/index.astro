@@ -12,10 +12,16 @@ import Contact from '../../components/Contact.astro';
 import { site } from '../../content/site.he';
 ---
 
-<Base locale={site.locale} dir={site.dir} title={site.meta.title} description={site.meta.description}>
+<Base
+  locale={site.locale}
+  dir={site.dir}
+  title={site.meta.title}
+  description={site.meta.description}
+  skipLabel={site.ui.skipToContent}
+>
   <Header site={site} />
   <LevelIndicator site={site} />
-  <main>
+  <main id="main">
     <Hero site={site} />
     <About site={site} />
     <Manufacturers site={site} />

@@ -15,6 +15,7 @@ export const site: Site = {
     lightboxPrev: 'Previous photo',
     lightboxNext: 'Next photo',
     galleryOpen: 'View photo',
+    skipToContent: 'Skip to content',
   },
   nav: {
     about: 'About',

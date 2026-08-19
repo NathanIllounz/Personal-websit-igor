@@ -6,9 +6,28 @@ interface Props {
   dir: string;
   title: string;
   description: string;
+  skipLabel?: string;
 }
 
-const { locale, dir, title, description } = Astro.props;
+const { locale, dir, title, description, skipLabel } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const enUrl = new URL(`${base}/`, Astro.site);
+const heUrl = new URL(`${base}/he/`, Astro.site);
+const canonical = locale === 'he' ? heUrl : enUrl;
+
+// Structured data: the consultant as a Person (metadata, not page copy).
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Igor Gabriielian',
+  jobTitle: 'Automated & Robotic Parking Independent Systems Consultant',
+  description,
+  url: canonical.href,
+  image: new URL(`${base}/og.png`, Astro.site).href,
+  address: { '@type': 'PostalAddress', addressCountry: 'IL' },
+  knowsAbout: ['Automated parking systems', 'Robotic parking', 'APS commissioning'],
+});
 ---
 
 <!doctype html>
@@ -18,11 +37,17 @@ const { locale, dir, title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.svg`} />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link rel="canonical" href={canonical.href} />
+    <link rel="alternate" hreflang="en" href={enUrl.href} />
+    <link rel="alternate" hreflang="he" href={heUrl.href} />
+    <link rel="alternate" hreflang="x-default" href={enUrl.href} />
+    <link rel="sitemap" href={`${base}/sitemap-index.xml`} />
+    <meta name="theme-color" content="#111214" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/og.png`, Astro.site)} />
+    <meta property="og:image" content={new URL(`${base}/og.png`, Astro.site)} />
     <meta property="og:locale" content={locale === 'he' ? 'he_IL' : 'en_US'} />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -33,7 +58,16 @@ const { locale, dir, title, description } = Astro.props;
     />
   </head>
   <body>
+    {skipLabel && (
+      <a
+        href="#main"
+        class="sr-only z-[60] bg-amber text-ink focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:px-4 focus:py-2"
+      >
+        {skipLabel}
+      </a>
+    )}
     <slot />
+    <script type="application/ld+json" set:html={jsonLd} />
     <script>
       import '../scripts/scroll';
     </script>

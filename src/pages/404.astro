@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../content/site.en';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base locale="en" dir="ltr" title="404 — Igor Gabriielian" description={site.meta.description}>
+  <main class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 flex items-center justify-center font-[family-name:var(--font-display)] text-[35vw] font-bold text-paper/4 select-none"
+    >
+      404
+    </span>
+    <div class="relative z-10">
+      <p class="text-xs tracking-[0.3em] text-concrete-300 uppercase">Level not found</p>
+      <h1 class="mt-4 font-[family-name:var(--font-display)] text-3xl font-bold sm:text-4xl">
+        This level doesn’t exist.
+      </h1>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a
+          href={`${base}/`}
+          class="bg-paper px-6 py-3 font-[family-name:var(--font-display)] text-sm font-semibold tracking-widest text-ink uppercase transition-colors hover:bg-amber"
+        >
+          Back to street level
+        </a>
+        <a
+          href={`${base}/he/`}
+          class="border border-concrete-500 px-6 py-3 font-[family-name:var(--font-display)] text-sm font-semibold tracking-widest text-concrete-100 uppercase transition-colors hover:border-amber hover:text-amber"
+          lang="he"
+          dir="rtl"
+        >
+          לעמוד הראשי
+        </a>
+      </div>
+    </div>
+  </main>
+</Base>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nathanillounz.github.io/Personal-websit-igor/sitemap-index.xml

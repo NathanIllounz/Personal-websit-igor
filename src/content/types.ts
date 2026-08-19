@@ -14,6 +14,7 @@ export interface Site {
     lightboxPrev: string;
     lightboxNext: string;
     galleryOpen: string;
+    skipToContent: string;
   };
   nav: {
     about: string;

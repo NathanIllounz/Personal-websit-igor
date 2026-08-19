@@ -15,6 +15,7 @@ export const site: Site = {
     lightboxPrev: 'התמונה הקודמת',
     lightboxNext: 'התמונה הבאה',
     galleryOpen: 'הצגת תמונה',
+    skipToContent: 'דילוג לתוכן',
   },
   nav: {
     about: 'אודות',

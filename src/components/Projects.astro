@@ -42,7 +42,7 @@ const largeImages = await Promise.all(
   </div>
 
   <div class="mt-12 border border-concrete-700 p-8">
-    <p class="text-xs tracking-[0.3em] text-concrete-500 uppercase">{site.projects.roleLabel}</p>
+    <p class="text-xs tracking-[0.3em] text-concrete-300 uppercase">{site.projects.roleLabel}</p>
     <p class="mt-3 font-[family-name:var(--font-display)] text-xl font-semibold">
       {site.projects.roleTitle}
     </p>
@@ -56,13 +56,13 @@ const largeImages = await Promise.all(
         <p data-countup class="mt-6 font-[family-name:var(--font-display)] text-6xl font-bold text-amber">
           {p.spaces}
         </p>
-        <p class="mt-1 text-xs tracking-[0.25em] text-concrete-500 uppercase">
+        <p class="mt-1 text-xs tracking-[0.25em] text-concrete-300 uppercase">
           {site.projects.spacesLabel}
         </p>
         <dl class="mt-8 space-y-1 text-sm text-concrete-300">
           <dd>{p.system}</dd>
           <dd>{p.company}</dd>
-          <dd class="text-concrete-500">{p.years}</dd>
+          <dd class="text-concrete-300">{p.years}</dd>
         </dl>
 
         {galleries[i]!.length > 0 && (
