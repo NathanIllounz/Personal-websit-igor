@@ -109,6 +109,9 @@ function initHeroParallax() {
     layers.forEach(([el, f]) => {
       if (el) gsap.to(el, { x: nx * f, y: ny * f, duration: 0.8, ease: 'power2.out' });
     });
+    // amber glow follows the pointer
+    hero.style.setProperty('--mx', `${e.clientX - r.left}px`);
+    hero.style.setProperty('--my', `${e.clientY - r.top}px`);
   });
 }
 

@@ -73,6 +73,15 @@ html.lenis {
 html.user-active .hero-lift {
   animation: hero-lift-cycle 11s ease-in-out infinite;
 }
+
+/* Pointer-following amber glow over the hero (vars set by scroll.ts). */
+.hero-glow {
+  background: radial-gradient(
+    540px circle at var(--mx, 72%) var(--my, 42%),
+    rgba(245, 166, 35, 0.14),
+    transparent 65%
+  );
+}
 @media (prefers-reduced-motion: reduce) {
   .hero-lift {
     animation: none !important;
