@@ -31,8 +31,11 @@ function initSmoothScroll(): Lenis {
 }
 
 // Fade/slide-in of each section's content, mechanical easing, small stagger.
+// The hero (#top) is deliberately excluded: hiding above-the-fold content until
+// JS runs tanks FCP/Speed Index — the hero must paint immediately.
 function initReveals() {
   document.querySelectorAll<HTMLElement>('.section-inner').forEach((inner) => {
+    if (inner.closest('#top')) return;
     gsap.from(Array.from(inner.children), {
       y: 28,
       autoAlpha: 0,

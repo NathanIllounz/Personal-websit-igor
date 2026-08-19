@@ -9,7 +9,7 @@
   --color-paper: #fafafa;      /* off-white */
   --color-concrete-100: #e8e8e6;
   --color-concrete-300: #b9b9b5;
-  --color-concrete-500: #7d7d78;
+  --color-concrete-500: #6b6b66; /* ≥4.5:1 on paper — for light backgrounds only */
   --color-concrete-700: #3c3d3f;
   --color-amber: #f5a623;      /* signal/safety accent — use sparingly */
 
