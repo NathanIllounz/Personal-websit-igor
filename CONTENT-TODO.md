@@ -23,11 +23,10 @@ launch), nice-to-have marked 🟡.
       shots with other people). Even a good phone photo against a clean wall works.
 - [ ] Confirm permission to publish the project-site photos (client buildings).
 - [x] Photos screened (2026-08-20): only images with NO identifiable faces and NO
-      readable license plates were published (15 of 44). Excluded but worth
-      rescuing with a plate-blur edit (they're the most impressive shots):
-      - `Sokolov-Hertslia/...15.22.13 (1).jpeg` (commissioned bay, car on pallet — plate legible)
-      - `Ertsel-Tel-Aviv/...15.25.42 (3).jpeg` (crane offloading pallets — plate legible)
-      - `Tel-Aviv-Bougrashove/...15.35.06 (7).jpeg` (control cabinet + SUV — plate legible)
+      readable license plates were published (15 of 44).
+- [x] Plate-blur rescue done (2026-08-21): the three strongest excluded shots had
+      their plates blurred (verified visually) and joined the galleries as
+      `herzliya-07.jpg`, `ertsel-04.jpg`, `bograshov-07.jpg` (18 photos live).
       Note: two WhatsApp chat screenshots with personal names sit in
       `Sokolov-Hertslia/` (`15.21.06 (5)` and `15.21.07 (1)`) — never publish.
 
