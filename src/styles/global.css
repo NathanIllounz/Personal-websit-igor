@@ -37,6 +37,26 @@ html.lenis {
   outline-offset: 2px;
 }
 
+/* Scroll hint: bounce a few times, then rest (endless animation hurts Speed
+   Index and is distracting anyway). */
+@keyframes hint-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(25%);
+  }
+}
+.animate-hint {
+  animation: hint-bounce 1s ease-in-out 6;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-hint {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
