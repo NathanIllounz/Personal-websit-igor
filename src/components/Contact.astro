@@ -1,7 +1,9 @@
 ---
 // RETRIEVAL — light tone (back to street level).
+import { Image } from 'astro:assets';
 import Section from './Section.astro';
 import type { Site } from '../content/types';
+import logoMark from '../assets/logo-mark-light.png';
 
 interface Props {
   site: Site;
@@ -41,9 +43,7 @@ const buttons = [
   </div>
 
   <footer class="mt-24 flex flex-col items-center gap-3 border-t border-concrete-300 pt-8 text-center">
-    <p class="font-[family-name:var(--font-display)] text-lg font-bold tracking-[0.2em]">
-      IG<span class="text-amber">.</span>
-    </p>
+    <Image src={logoMark} alt="Igor Gabriielian logo" width={60} height={48} class="h-12 w-auto" />
     <p class="text-sm text-concrete-500">{c.footer}</p>
   </footer>
 </Section>
