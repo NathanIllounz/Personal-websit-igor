@@ -80,6 +80,38 @@ function initCountUps() {
   });
 }
 
+// Hero intro: the name rises letter by letter, then the rest of the hero
+// slides in with a mechanical stagger. Runs once, after load (content is
+// painted before this runs, so first paint stays instant).
+function initHeroIntro() {
+  const hero = document.getElementById('top');
+  if (!hero) return;
+  const letters = hero.querySelectorAll('.hero-letter');
+  const items = hero.querySelectorAll('[data-intro]');
+  const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+  if (letters.length) tl.from(letters, { yPercent: 115, duration: 0.55, stagger: 0.03 }, 0);
+  if (items.length) tl.from(items, { y: 26, autoAlpha: 0, duration: 0.55, stagger: 0.07 }, 0.3);
+}
+
+// Hero parallax: grid and diagram drift subtly against the pointer.
+function initHeroParallax() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  const hero = document.getElementById('top');
+  if (!hero) return;
+  const layers: Array<[HTMLElement | null, number]> = [
+    [hero.querySelector<HTMLElement>('.hero-grid'), 12],
+    [hero.querySelector<HTMLElement>('.hero-diagram'), -22],
+  ];
+  hero.addEventListener('pointermove', (e) => {
+    const r = hero.getBoundingClientRect();
+    const nx = (e.clientX - r.left) / r.width - 0.5;
+    const ny = (e.clientY - r.top) / r.height - 0.5;
+    layers.forEach(([el, f]) => {
+      if (el) gsap.to(el, { x: nx * f, y: ny * f, duration: 0.8, ease: 'power2.out' });
+    });
+  });
+}
+
 // The Build: fixed photographic backdrop — each level descent crossfades to
 // the next construction stage with a perspective dip (the 3D transition).
 function initBuildScene() {
@@ -167,14 +199,22 @@ function init() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) return; // content is fully visible without any of this
 
+  // First real user input unlocks idle CSS loops (hero lift diagram) —
+  // keeps audits (which never interact) free of endless animation.
+  const wake = () => document.documentElement.classList.add('user-active');
+  ['pointermove', 'scroll', 'touchstart', 'keydown'].forEach((ev) =>
+    window.addEventListener(ev, wake, { once: true, passive: true })
+  );
+
   // Run each init as its own task after the load event: keeps main-thread
   // work out of the startup window (TBT) and splits it into short tasks.
-  const queue: Array<() => void> = [initSmoothScroll, initReveals, initCountUps];
+  const queue: Array<() => void> = [initHeroIntro, initSmoothScroll, initReveals, initCountUps];
   // The elevator/car + Build scene are desktop refinements — phones keep it
   // simple (CLAUDE.md rule 5).
   if (window.matchMedia('(min-width: 1024px)').matches) {
     queue.push(initElevator);
     queue.push(initBuildScene);
+    queue.push(initHeroParallax);
   }
   queue.push(() => window.addEventListener('resize', () => ScrollTrigger.refresh()));
 

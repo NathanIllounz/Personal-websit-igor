@@ -1,46 +1,133 @@
 ---
 // STREET LEVEL — light tone (daylight, before the descent).
+// Intro choreography + parallax live in scripts/scroll.ts; the lift-diagram
+// loop is CSS (html.user-active gated, reduced-motion-safe).
 import type { Site } from '../content/types';
 
 interface Props {
   site: Site;
 }
 const { site } = Astro.props;
+const letters = site.hero.name.split('');
 ---
 
 <section id="top" class="relative overflow-hidden bg-paper px-6 pt-32 pb-20 text-ink sm:pt-40">
-  <!-- blueprint grid texture -->
+  <!-- blueprint grid texture (parallax layer) -->
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgba(17,18,20,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(17,18,20,0.05)_1px,transparent_1px)] [background-size:56px_56px]"
+    class="hero-grid pointer-events-none absolute -inset-8 [background-image:linear-gradient(to_right,rgba(17,18,20,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(17,18,20,0.05)_1px,transparent_1px)] [background-size:56px_56px]"
   >
   </div>
 
+  <!-- line-art APS rack with cycling lift (parallax layer, desktop only) -->
+  <div
+    aria-hidden="true"
+    class="hero-diagram pointer-events-none absolute top-28 bottom-8 end-[-40px] hidden w-[420px] opacity-70 xl:block"
+  >
+    <svg viewBox="0 0 460 560" fill="none" class="h-full w-full" preserveAspectRatio="xMidYMid meet">
+      <!-- bay frame -->
+      <g stroke="var(--color-concrete-300)" stroke-width="2">
+        <line x1="20" y1="40" x2="20" y2="520" />
+        <line x1="260" y1="40" x2="260" y2="520" />
+        <line x1="20" y1="40" x2="260" y2="40" />
+        <line x1="20" y1="200" x2="260" y2="200" />
+        <line x1="20" y1="360" x2="260" y2="360" />
+        <line x1="20" y1="520" x2="260" y2="520" />
+      </g>
+      <!-- shaft rails -->
+      <g stroke="var(--color-concrete-300)" stroke-width="2">
+        <line x1="300" y1="40" x2="300" y2="540" />
+        <line x1="450" y1="40" x2="450" y2="540" />
+      </g>
+      <g stroke="var(--color-concrete-300)" stroke-width="1" opacity="0.7">
+        {[80, 120, 160, 240, 280, 320, 400, 440, 480].map((y) => (
+          <>
+            <line x1="300" y1={y} x2="308" y2={y} />
+            <line x1="442" y1={y} x2="450" y2={y} />
+          </>
+        ))}
+      </g>
+      <!-- amber level markers -->
+      <g fill="var(--color-amber)">
+        <rect x="264" y="196" width="10" height="4" />
+        <rect x="264" y="356" width="10" height="4" />
+        <rect x="264" y="516" width="10" height="4" />
+      </g>
+      <!-- parked cars (levels 1 and 3) -->
+      {[90, 410].map((ty) => (
+        <g
+          stroke="var(--color-concrete-500)"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          transform={`translate(26 ${ty}) scale(8)`}
+        >
+          <path d="M1 11 V8.5 L4.5 7.5 L8 3.5 H15.5 L19.5 7.5 H25 V11 H21.5" />
+          <path d="M9 11 H14" />
+          <circle cx="8" cy="11.5" r="2.2" />
+          <circle cx="18" cy="11.5" r="2.2" />
+        </g>
+      ))}
+      <!-- the lift: platform + car, cycles between levels (CSS keyframes) -->
+      <g class="hero-lift">
+        <line x1="302" y1="520" x2="448" y2="520" stroke="var(--color-amber)" stroke-width="4" />
+        <g
+          stroke="var(--color-concrete-700)"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          transform="translate(304 444) scale(5.5)"
+        >
+          <path d="M1 11 V8.5 L4.5 7.5 L8 3.5 H15.5 L19.5 7.5 H25 V11 H21.5" />
+          <path d="M9 11 H14" />
+          <circle cx="8" cy="11.5" r="2.2" />
+          <circle cx="18" cy="11.5" r="2.2" />
+        </g>
+      </g>
+    </svg>
+  </div>
+
   <div class="section-inner relative z-10 mx-auto max-w-5xl">
-    <p class="mb-10 inline-flex items-center gap-3 border border-concrete-300 px-3 py-1 text-xs tracking-[0.3em] text-concrete-500 uppercase">
+    <p
+      data-intro
+      class="mb-10 inline-flex items-center gap-3 border border-concrete-300 px-3 py-1 text-xs tracking-[0.3em] text-concrete-500 uppercase"
+    >
       <span class="inline-block size-1.5 bg-amber"></span>
       {site.hero.level}
     </p>
 
-    <h1 class="font-[family-name:var(--font-display)] text-4xl font-bold tracking-[0.12em] text-balance sm:text-6xl">
-      {site.hero.name}
+    <h1 class="overflow-hidden font-[family-name:var(--font-display)] text-4xl font-bold tracking-[0.12em] text-balance sm:text-6xl">
+      {letters.map((ch) =>
+        ch === ' ' ? (
+          <span class="inline-block w-[0.35em]">&nbsp;</span>
+        ) : (
+          <span class="hero-letter inline-block will-change-transform">{ch}</span>
+        )
+      )}
     </h1>
-    <p class="mt-6 max-w-2xl text-lg text-concrete-700 sm:text-2xl">{site.hero.title}</p>
-    <p class="mt-4 font-[family-name:var(--font-display)] text-lg font-semibold">
+    <p data-intro class="mt-6 max-w-2xl text-lg text-concrete-700 sm:text-2xl">{site.hero.title}</p>
+    <p data-intro class="mt-4 font-[family-name:var(--font-display)] text-lg font-semibold">
       {site.hero.tagline}
     </p>
-    <p class="mt-6 text-sm tracking-[0.25em] text-concrete-500 uppercase">{site.hero.services}</p>
+    <p data-intro class="mt-6 text-sm tracking-[0.25em] text-concrete-500 uppercase">
+      {site.hero.services}
+    </p>
 
     <a
+      data-intro
       href="#contact"
-      class="mt-10 inline-block bg-ink px-8 py-4 font-[family-name:var(--font-display)] text-sm font-semibold tracking-widest text-paper uppercase transition-colors hover:bg-amber hover:text-ink"
+      class="group mt-10 inline-flex items-center gap-3 bg-ink px-8 py-4 font-[family-name:var(--font-display)] text-sm font-semibold tracking-widest text-paper uppercase transition-colors duration-300 hover:bg-amber hover:text-ink"
     >
       {site.hero.cta}
+      <span aria-hidden="true" class="inline-block transition-transform duration-300 group-hover:translate-y-0.5">↓</span>
     </a>
 
     <dl class="mt-20 grid grid-cols-2 gap-px border border-concrete-300 bg-concrete-300 sm:grid-cols-3">
       {site.hero.stats.map((s) => (
-        <div class="bg-paper p-6">
+        <div
+          data-intro
+          class="stat-tile bg-paper p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[inset_0_-2px_0_0_var(--color-amber)]"
+        >
           <dt class="sr-only">{s.label}</dt>
           <dd data-countup class="font-[family-name:var(--font-display)] text-2xl font-bold sm:text-3xl">
             {s.value}
@@ -50,7 +137,7 @@ const { site } = Astro.props;
       ))}
     </dl>
 
-    <p class="mt-16 flex items-center gap-3 text-xs tracking-[0.3em] text-concrete-500 uppercase">
+    <p data-intro class="mt-16 flex items-center gap-3 text-xs tracking-[0.3em] text-concrete-500 uppercase">
       {site.hero.scrollHint}
       <span aria-hidden="true" class="inline-block text-amber">↓</span>
     </p>

@@ -48,6 +48,37 @@ html.lenis {
 /* Scroll hint arrow is intentionally static: any load-time animation in the
    viewport tanks the Speed Index metric under mobile CPU simulation. */
 
+/* ── Hero lift diagram ─────────────────────────────────────────────────────
+   The lift cycles between the three levels. Gated on html.user-active (added
+   on first scroll/pointer input) so no idle animation runs during audits,
+   and disabled entirely for prefers-reduced-motion. */
+@keyframes hero-lift-cycle {
+  0%,
+  12% {
+    transform: translateY(0);
+  }
+  30%,
+  46% {
+    transform: translateY(-160px);
+  }
+  64%,
+  80% {
+    transform: translateY(-320px);
+  }
+  98%,
+  100% {
+    transform: translateY(0);
+  }
+}
+html.user-active .hero-lift {
+  animation: hero-lift-cycle 11s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-lift {
+    animation: none !important;
+  }
+}
+
 /* ── The Build background scene ────────────────────────────────────────────
    Fixed photographic backdrop behind the dark sections: one construction
    stage per level, crossfaded with a perspective dip by scripts/scroll.ts.
