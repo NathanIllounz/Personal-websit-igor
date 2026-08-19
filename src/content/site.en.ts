@@ -10,6 +10,12 @@ export const site: Site = {
     description:
       'Independent consultant for automated and robotic parking systems (APS). Planning, technical review, supervision and commissioning — from concept to reliable operation.',
   },
+  ui: {
+    lightboxClose: 'Close photo viewer',
+    lightboxPrev: 'Previous photo',
+    lightboxNext: 'Next photo',
+    galleryOpen: 'View photo',
+  },
   nav: {
     about: 'About',
     manufacturers: 'Manufacturers',

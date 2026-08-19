@@ -1,4 +1,6 @@
 ---
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import Section from './Section.astro';
 import type { Site } from '../content/types';
 
@@ -6,6 +8,28 @@ interface Props {
   site: Site;
 }
 const { site } = Astro.props;
+
+// Gallery order matches site.projects.items:
+//   0 Herzliya (Autech, 2022–23)  ← Sokolov-Hertslia photos
+//   1 Tel Aviv (Sotefin, 2024)    ← Ertsel (Herzl St) photos
+//   2 Tel Aviv (Parkomat, 2025–26)← Bograshov St photos
+// Mapping evidence: Parkomat-branded machinery appears in the Bograshov photos,
+// "HERZEL 91" pallet markings in the Ertsel photos. Swap 1↔2 if Igor says otherwise.
+const galleryModules = [
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/herzliya/*.jpg', { eager: true }),
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/telaviv-ertsel/*.jpg', { eager: true }),
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/telaviv-bograshov/*.jpg', { eager: true }),
+];
+const galleries = galleryModules.map((mod) =>
+  Object.keys(mod)
+    .sort()
+    .map((k) => mod[k]!.default)
+);
+const largeImages = await Promise.all(
+  galleries.map((g) =>
+    Promise.all(g.map((img) => getImage({ src: img, width: 1600, format: 'webp' })))
+  )
+);
 ---
 
 <Section id="projects" level={site.projects.level} ghost="5" tone="dark">
@@ -25,9 +49,8 @@ const { site } = Astro.props;
     <p class="mt-3 max-w-3xl leading-relaxed text-concrete-300">{site.projects.roleBody}</p>
   </div>
 
-  <!-- Photo galleries land here in Phase 3 (see PLAN.md) -->
   <div class="mt-12 grid gap-px border border-concrete-700 bg-concrete-700 lg:grid-cols-3">
-    {site.projects.items.map((p) => (
+    {site.projects.items.map((p, i) => (
       <article class="bg-ink p-8">
         <h3 class="text-sm tracking-[0.3em] text-concrete-300 uppercase">{p.city}</h3>
         <p data-countup class="mt-6 font-[family-name:var(--font-display)] text-6xl font-bold text-amber">
@@ -41,6 +64,31 @@ const { site } = Astro.props;
           <dd>{p.company}</dd>
           <dd class="text-concrete-500">{p.years}</dd>
         </dl>
+
+        {galleries[i]!.length > 0 && (
+          <ul class="mt-8 grid grid-cols-3 gap-2">
+            {galleries[i]!.map((img, j) => (
+              <li>
+                <button
+                  type="button"
+                  data-lightbox={`project-${i}`}
+                  data-full={largeImages[i]![j]!.src}
+                  data-alt={`${p.system}, ${p.city} (${j + 1})`}
+                  aria-label={`${site.ui.galleryOpen} ${j + 1} — ${p.city}`}
+                  class="group block w-full cursor-pointer border border-concrete-700 transition-colors hover:border-amber focus-visible:border-amber"
+                >
+                  <Image
+                    src={img}
+                    width={400}
+                    alt={`${p.system}, ${p.city}`}
+                    loading="lazy"
+                    class="aspect-square w-full object-cover opacity-80 transition-opacity group-hover:opacity-100"
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </article>
     ))}
   </div>
@@ -57,3 +105,81 @@ const { site } = Astro.props;
     </p>
   </div>
 </Section>
+
+<dialog
+  id="lightbox"
+  class="m-auto max-h-[92vh] max-w-[92vw] border border-concrete-700 bg-ink p-0 backdrop:bg-ink/90"
+>
+  <div class="relative">
+    <img id="lightbox-img" src="" alt="" class="block max-h-[85vh] max-w-[92vw] object-contain" />
+    <button
+      type="button"
+      id="lightbox-close"
+      aria-label={site.ui.lightboxClose}
+      class="absolute top-2 end-2 flex size-10 cursor-pointer items-center justify-center bg-ink/80 text-xl text-paper transition-colors hover:text-amber"
+    >
+      ✕
+    </button>
+    <button
+      type="button"
+      id="lightbox-prev"
+      aria-label={site.ui.lightboxPrev}
+      class="absolute start-2 top-1/2 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center bg-ink/80 text-xl text-paper transition-colors hover:text-amber"
+    >
+      ‹
+    </button>
+    <button
+      type="button"
+      id="lightbox-next"
+      aria-label={site.ui.lightboxNext}
+      class="absolute end-2 top-1/2 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center bg-ink/80 text-xl text-paper transition-colors hover:text-amber"
+    >
+      ›
+    </button>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('lightbox') as HTMLDialogElement | null;
+  const img = document.getElementById('lightbox-img') as HTMLImageElement | null;
+
+  if (dialog && img) {
+    const buttons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('[data-lightbox]')
+    );
+    let group: HTMLButtonElement[] = [];
+    let index = 0;
+
+    const show = (i: number) => {
+      const btn = group[i];
+      if (!btn) return;
+      index = i;
+      img.src = btn.dataset.full ?? '';
+      img.alt = btn.dataset.alt ?? '';
+    };
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        group = buttons.filter((b) => b.dataset.lightbox === btn.dataset.lightbox);
+        show(group.indexOf(btn));
+        dialog.showModal();
+      });
+    });
+
+    const step = (d: number) => show((index + d + group.length) % group.length);
+
+    document.getElementById('lightbox-close')?.addEventListener('click', () => dialog.close());
+    document.getElementById('lightbox-prev')?.addEventListener('click', () => step(-1));
+    document.getElementById('lightbox-next')?.addEventListener('click', () => step(1));
+
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') step(1);
+      if (e.key === 'ArrowLeft') step(-1);
+    });
+
+    // Click on the backdrop (outside the image area) closes.
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+  }
+</script>

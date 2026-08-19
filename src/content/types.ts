@@ -9,6 +9,12 @@ export interface Site {
   locale: 'en' | 'he';
   dir: 'ltr' | 'rtl';
   meta: { title: string; description: string };
+  ui: {
+    lightboxClose: string;
+    lightboxPrev: string;
+    lightboxNext: string;
+    galleryOpen: string;
+  };
   nav: {
     about: string;
     manufacturers: string;

@@ -16,13 +16,22 @@ launch), nice-to-have marked 🟡.
       corrects it (recommended — he knows the industry terminology in Hebrew).
 
 ## 🔴 Photos
-- [ ] Which Tel Aviv folder is which project?
-      - `Ertsel-Tel-Aviv/`  → 224 spaces · Sotefin · 2024   — or the 171-space one?
-      - `Tel-Aviv-Bougrashove/` → 171 spaces · Parkomat · 2025–2026 — or the 224?
+- [ ] CONFIRM photo↔project mapping (currently assumed from evidence in the photos:
+      Parkomat-branded machinery in Bougrashove; "HERZEL 91" pallet markings in Ertsel):
+      - `Ertsel-Tel-Aviv/` → 224 spaces · Sotefin · 2024 (live as `telaviv-ertsel`)
+      - `Tel-Aviv-Bougrashove/` → 171 spaces · Parkomat · 2025–2026 (live as `telaviv-bograshov`)
+      If wrong, swap the glob order in `src/components/Projects.astro`.
 - [ ] A proper portrait/headshot of Igor (current `Igor-Pic/` photos are event
       shots with other people). Even a good phone photo against a clean wall works.
 - [ ] Confirm permission to publish the project-site photos (client buildings).
-- [ ] Crop/blur any identifiable third parties in photos we do use.
+- [x] Photos screened (2026-08-20): only images with NO identifiable faces and NO
+      readable license plates were published (15 of 44). Excluded but worth
+      rescuing with a plate-blur edit (they're the most impressive shots):
+      - `Sokolov-Hertslia/...15.22.13 (1).jpeg` (commissioned bay, car on pallet — plate legible)
+      - `Ertsel-Tel-Aviv/...15.25.42 (3).jpeg` (crane offloading pallets — plate legible)
+      - `Tel-Aviv-Bougrashove/...15.35.06 (7).jpeg` (control cabinet + SUV — plate legible)
+      Note: two WhatsApp chat screenshots with personal names sit in
+      `Sokolov-Hertslia/` (`15.21.06 (5)` and `15.21.07 (1)`) — never publish.
 
 ## 🔴 GitHub / hosting
 - [ ] GitHub username + desired repo name (affects the Pages URL and `base` config)

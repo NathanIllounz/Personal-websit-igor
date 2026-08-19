@@ -10,6 +10,12 @@ export const site: Site = {
     description:
       'יועץ עצמאי למערכות חניה אוטומטיות ורובוטיות (APS): תכנון, בדיקה טכנית, פיקוח, הרצה ומסירה — מהרעיון ועד לתפעול אמין.',
   },
+  ui: {
+    lightboxClose: 'סגירת מציג התמונות',
+    lightboxPrev: 'התמונה הקודמת',
+    lightboxNext: 'התמונה הבאה',
+    galleryOpen: 'הצגת תמונה',
+  },
   nav: {
     about: 'אודות',
     manufacturers: 'יצרנים',
