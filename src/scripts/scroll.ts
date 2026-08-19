@@ -126,16 +126,26 @@ function init() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) return; // content is fully visible without any of this
 
-  initSmoothScroll();
-  initReveals();
-  initCountUps();
-
+  // Run each init as its own task after the load event: keeps main-thread
+  // work out of the startup window (TBT) and splits it into short tasks.
+  const queue: Array<() => void> = [initSmoothScroll, initReveals, initCountUps];
   // The elevator/car is a desktop refinement — phones keep it simple (CLAUDE.md rule 5).
   if (window.matchMedia('(min-width: 1024px)').matches) {
-    initElevator();
+    queue.push(initElevator);
   }
+  queue.push(() => window.addEventListener('resize', () => ScrollTrigger.refresh()));
 
-  window.addEventListener('resize', () => ScrollTrigger.refresh());
+  const runNext = () => {
+    const task = queue.shift();
+    if (!task) return;
+    task();
+    setTimeout(runNext, 0);
+  };
+  if (document.readyState === 'complete') {
+    setTimeout(runNext, 0);
+  } else {
+    window.addEventListener('load', () => setTimeout(runNext, 0), { once: true });
+  }
 }
 
 init();
