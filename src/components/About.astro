@@ -1,6 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import Section from './Section.astro';
 import type { Site } from '../content/types';
+import portrait from '../assets/igor/igor-portrait.jpg';
+import candid from '../assets/igor/igor-walk.jpg';
 
 interface Props {
   site: Site;
@@ -19,31 +22,23 @@ const { site } = Astro.props;
       </div>
     </div>
 
-    <!-- Portrait placeholder (pseudo) — swap for a real photo (CONTENT-TODO.md) -->
     <figure class="mx-auto w-64 lg:w-full">
       <div class="border border-concrete-700 bg-concrete-700/30 p-2">
-        <svg
-          viewBox="0 0 240 300"
-          role="img"
-          aria-label={site.about.portraitAlt}
-          class="block w-full"
-        >
-          <rect width="240" height="300" fill="none" />
-          <g fill="none" stroke="var(--color-concrete-300)" stroke-width="2">
-            <circle cx="120" cy="110" r="46" />
-            <path d="M48 268 c0-56 32-86 72-86 s72 30 72 86" />
-          </g>
-          <g stroke="var(--color-concrete-700)" stroke-width="1">
-            <line x1="16" y1="16" x2="40" y2="16" />
-            <line x1="16" y1="16" x2="16" y2="40" />
-            <line x1="224" y1="284" x2="200" y2="284" />
-            <line x1="224" y1="284" x2="224" y2="260" />
-          </g>
-        </svg>
+        <Image src={portrait} width={640} alt={site.about.portraitAlt} class="block w-full" />
       </div>
       <figcaption class="mt-3 text-center text-xs tracking-widest text-concrete-300 uppercase">
         Igor Gabriielian
       </figcaption>
     </figure>
   </div>
+
+  <!-- Candid: walking the rails of a system under installation -->
+  <figure class="mt-16 border border-concrete-700 p-2">
+    <Image
+      src={candid}
+      width={1200}
+      alt={site.about.candidAlt}
+      class="block aspect-[21/9] w-full object-cover"
+    />
+  </figure>
 </Section>

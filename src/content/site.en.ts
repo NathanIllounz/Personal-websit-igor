@@ -52,7 +52,8 @@ export const site: Site = {
       'For more than a decade, I have specialized in automated and robotic parking systems, working with technologies from over 10 APS manufacturers and holding technical and project leadership positions at two of Israel’s leading automated parking companies.',
       'My experience includes leading three of the largest APS projects delivered in Israel and contributing, in different technical and management roles, to the implementation and commissioning of more than 3,000 automated parking spaces.',
     ],
-    portraitAlt: 'Portrait of Igor Gabriielian',
+    portraitAlt: 'Igor Gabriielian in a safety harness on a construction-site rooftop',
+    candidAlt: 'Igor Gabriielian walking through an automated parking level under construction',
   },
   manufacturers: {
     level: 'LEVEL −2',

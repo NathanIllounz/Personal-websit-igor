@@ -64,27 +64,40 @@ const largeImages = await Promise.all(
         </dl>
 
         {galleries[i]!.length > 0 && (
-          <ul class="mt-8 grid grid-cols-3 gap-2">
-            {galleries[i]!.map((img, j) => (
-              <li>
-                <button
-                  type="button"
-                  data-lightbox={`project-${i}`}
-                  data-full={largeImages[i]![j]!.src}
-                  data-alt={`${p.system}, ${p.city} (${j + 1})`}
-                  aria-label={`${site.ui.galleryOpen} ${j + 1} — ${p.city}`}
-                  class="group block w-full cursor-pointer border border-concrete-700 transition-colors hover:border-amber focus-visible:border-amber"
-                >
-                  <Image
-                    src={img}
-                    width={400}
-                    alt={`${p.system}, ${p.city}`}
-                    loading="lazy"
-                    class="aspect-square w-full object-cover opacity-80 transition-opacity group-hover:opacity-100"
-                  />
-                </button>
-              </li>
-            ))}
+          <ul class="mt-8 grid grid-cols-4 gap-2">
+            {galleries[i]!.map((img, j) => {
+              const count = galleries[i]!.length;
+              const overflow = count > 8 ? count - 8 : 0;
+              const isOverflowTile = overflow > 0 && j === 7;
+              return (
+                <li class={overflow > 0 && j > 7 ? 'hidden' : ''}>
+                  <button
+                    type="button"
+                    data-lightbox={`project-${i}`}
+                    data-full={largeImages[i]![j]!.src}
+                    data-alt={`${p.system}, ${p.city} (${j + 1})`}
+                    aria-label={`${site.ui.galleryOpen} ${j + 1} — ${p.city}`}
+                    class="group relative block w-full cursor-pointer border border-concrete-700 transition-colors hover:border-amber focus-visible:border-amber"
+                  >
+                    <Image
+                      src={img}
+                      width={400}
+                      alt={`${p.system}, ${p.city}`}
+                      loading="lazy"
+                      class="aspect-square w-full object-cover opacity-80 transition-opacity group-hover:opacity-100"
+                    />
+                    {isOverflowTile && (
+                      <span
+                        aria-hidden="true"
+                        class="absolute inset-0 flex items-center justify-center bg-ink/75 font-[family-name:var(--font-display)] text-xl font-bold text-paper transition-colors group-hover:bg-ink/50"
+                      >
+                        +{overflow}
+                      </span>
+                    )}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         )}
       </article>

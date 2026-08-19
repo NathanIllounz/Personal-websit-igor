@@ -40,6 +40,7 @@ export interface Site {
     heading: string;
     paragraphs: string[];
     portraitAlt: string;
+    candidAlt: string;
   };
   manufacturers: {
     level: string;
