@@ -4,10 +4,10 @@ Answers get wired into `src/content/site.ts`. Blockers marked 🔴 (needed befor
 launch), nice-to-have marked 🟡.
 
 ## 🔴 Contact & identity
-- [ ] Phone number (public? WhatsApp same number?)
-- [ ] Email address for enquiries (also used by the contact form)
-- [ ] LinkedIn profile URL (and any other professional profiles)
-- [ ] Name spelling confirmation: logo shows **GABRIIELIAN** (double "II") — correct?
+- [x] Phone + WhatsApp: +972 53-700-2702 (live on site)
+- [x] Email: igorrg1989@gmail.com (live on site)
+- [x] LinkedIn: https://www.linkedin.com/in/igor-gabriielian-612326258/ (live on site)
+- [x] Name spelling confirmed: GABRIIELIAN (double "II")
 - [ ] Languages Igor works in (worth listing: e.g. English / Hebrew / Russian)
 
 ## 🔴 Site language(s) — DECIDED: bilingual EN + HE with a switcher
@@ -16,11 +16,9 @@ launch), nice-to-have marked 🟡.
       corrects it (recommended — he knows the industry terminology in Hebrew).
 
 ## 🔴 Photos
-- [ ] CONFIRM photo↔project mapping (currently assumed from evidence in the photos:
-      Parkomat-branded machinery in Bougrashove; "HERZEL 91" pallet markings in Ertsel):
-      - `Ertsel-Tel-Aviv/` → 224 spaces · Sotefin · 2024 (live as `telaviv-ertsel`)
-      - `Tel-Aviv-Bougrashove/` → 171 spaces · Parkomat · 2025–2026 (live as `telaviv-bograshov`)
-      If wrong, swap the glob order in `src/components/Projects.astro`.
+- [x] Photo↔project mapping CONFIRMED by Igor (2026-08):
+      - `Tel-Aviv-Bougrashove/` → 224 spaces · Sotefin · 2024
+      - `Ertsel-Tel-Aviv/` → 171 spaces · Parkomat · 2025–2026
 - [ ] A proper portrait/headshot of Igor (current `Igor-Pic/` photos are event
       shots with other people). Even a good phone photo against a clean wall works.
 - [ ] Confirm permission to publish the project-site photos (client buildings).

@@ -170,10 +170,10 @@ export const site: Site = {
     whatsappLabel: 'וואטסאפ',
     emailLabel: 'אימייל',
     linkedinLabel: 'לינקדאין',
-    phone: '000-0000-000', // TODO: real number (see CONTENT-TODO.md)
-    email: 'contact@example.com', // TODO
-    whatsapp: '000-0000-000', // TODO
-    linkedin: '#', // TODO
+    phone: '+972 53-700-2702',
+    email: 'igorrg1989@gmail.com',
+    whatsapp: '+972 53-700-2702',
+    linkedin: 'https://www.linkedin.com/in/igor-gabriielian-612326258/',
     footer: '© 2026 איגור גבריאליאן. כל הזכויות שמורות.',
   },
 };

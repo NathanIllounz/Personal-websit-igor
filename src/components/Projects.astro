@@ -9,16 +9,14 @@ interface Props {
 }
 const { site } = Astro.props;
 
-// Gallery order matches site.projects.items:
-//   0 Herzliya (Autech, 2022–23)  ← Sokolov-Hertslia photos
-//   1 Tel Aviv (Sotefin, 2024)    ← Ertsel (Herzl St) photos
-//   2 Tel Aviv (Parkomat, 2025–26)← Bograshov St photos
-// Mapping evidence: Parkomat-branded machinery appears in the Bograshov photos,
-// "HERZEL 91" pallet markings in the Ertsel photos. Swap 1↔2 if Igor says otherwise.
+// Gallery order matches site.projects.items (mapping confirmed by Igor 2026-08):
+//   0 Herzliya (Autech, 2022–23)   ← Sokolov-Hertslia photos
+//   1 Tel Aviv (Sotefin, 2024)     ← Bograshov St photos
+//   2 Tel Aviv (Parkomat, 2025–26) ← Ertsel (Herzl St) photos
 const galleryModules = [
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/herzliya/*.jpg', { eager: true }),
-  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/telaviv-ertsel/*.jpg', { eager: true }),
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/telaviv-bograshov/*.jpg', { eager: true }),
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/telaviv-ertsel/*.jpg', { eager: true }),
 ];
 const galleries = galleryModules.map((mod) =>
   Object.keys(mod)
