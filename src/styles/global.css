@@ -40,8 +40,63 @@ html.lenis {
   outline-offset: 2px;
 }
 
+::selection {
+  background: var(--color-amber);
+  color: var(--color-ink);
+}
+
 /* Scroll hint arrow is intentionally static: any load-time animation in the
    viewport tanks the Speed Index metric under mobile CPU simulation. */
+
+/* ── The Cutaway background scene ──────────────────────────────────────────
+   Fixed behind the dark sections; the camera (translate + rotateX dip) is
+   driven by scripts/scroll.ts. Desktop-only, motion-safe. */
+#tower-viewport {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  perspective: 1200px;
+  pointer-events: none;
+}
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  #tower-viewport {
+    display: block;
+  }
+}
+#tower-scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.4;
+  will-change: transform;
+  transform-origin: 50% 50%;
+}
+.scene-floor .floor-light {
+  opacity: 0.12;
+  transition: opacity 0.6s ease;
+}
+.scene-floor[data-active='true'] .floor-light {
+  opacity: 0.9;
+}
+#scene-lift {
+  will-change: transform;
+}
+
+/* Content sits above the scene */
+header,
+main,
+#level-indicator {
+  position: relative;
+  z-index: 1;
+}
+header {
+  position: fixed; /* keep header fixed (relative override above must not win) */
+}
+#level-indicator {
+  position: fixed;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html {

@@ -80,6 +80,64 @@ function initCountUps() {
   });
 }
 
+// The Cutaway: the fixed background tower scene descends one floor per
+// section with a perspective dip; active floor lights up, lift rides along.
+function initTowerScene() {
+  const scene = document.getElementById('tower-scene');
+  const lift = document.getElementById('scene-lift');
+  if (!scene || !lift) return;
+
+  const FLOOR_SVG = 520; // must match TowerScene.astro
+  const SVG_W = 1600;
+  const floors = Array.from(scene.querySelectorAll<SVGGElement>('.scene-floor'));
+  const floorPx = () => (scene.clientWidth / SVG_W) * FLOOR_SVG;
+  const camY = (floor: number) => window.innerHeight * 0.55 - (floor + 0.5) * floorPx();
+
+  let current = 0;
+  const liftPos = { y: -FLOOR_SVG };
+
+  const goTo = (i: number) => {
+    // sections: 0 street … 5 projects; contact stays on the last floor
+    const floor = Math.max(0, Math.min(i, 5));
+    current = floor;
+    const tl = gsap.timeline({ defaults: { overwrite: 'auto' } });
+    tl.to(scene, { y: camY(floor), duration: 1.1, ease: 'power2.inOut' }, 0)
+      .to(scene, { rotateX: 6, duration: 0.55, ease: 'power2.in' }, 0)
+      .to(scene, { rotateX: 0, duration: 0.55, ease: 'power2.out' }, 0.55)
+      .to(
+        liftPos,
+        {
+          y: (floor - 1) * FLOOR_SVG,
+          duration: 1.1,
+          ease: 'power2.inOut',
+          onUpdate: () => lift.setAttribute('transform', `translate(0 ${liftPos.y})`),
+        },
+        0
+      );
+    floors.forEach((g) => g.setAttribute('data-active', String(g.dataset.floor === String(floor))));
+  };
+
+  gsap.set(scene, { y: camY(0) });
+  lift.setAttribute('transform', `translate(0 ${liftPos.y})`);
+
+  SECTIONS.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top center',
+      end: 'bottom center',
+      onToggle: (self) => {
+        if (self.isActive) goTo(i);
+      },
+    });
+  });
+
+  ScrollTrigger.addEventListener('refreshInit', () => {
+    gsap.set(scene, { y: camY(current) });
+  });
+}
+
 // The elevator panel: the car marker rides to the active level as you scroll.
 function initElevator() {
   const nav = document.getElementById('level-indicator');
@@ -129,9 +187,11 @@ function init() {
   // Run each init as its own task after the load event: keeps main-thread
   // work out of the startup window (TBT) and splits it into short tasks.
   const queue: Array<() => void> = [initSmoothScroll, initReveals, initCountUps];
-  // The elevator/car is a desktop refinement — phones keep it simple (CLAUDE.md rule 5).
+  // The elevator/car + Cutaway scene are desktop refinements — phones keep it
+  // simple (CLAUDE.md rule 5).
   if (window.matchMedia('(min-width: 1024px)').matches) {
     queue.push(initElevator);
+    queue.push(initTowerScene);
   }
   queue.push(() => window.addEventListener('resize', () => ScrollTrigger.refresh()));
 

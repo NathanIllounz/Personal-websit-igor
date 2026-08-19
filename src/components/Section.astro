@@ -8,7 +8,9 @@ interface Props {
 }
 const { id, level, ghost, tone = 'dark' } = Astro.props;
 const tones = {
-  dark: 'bg-ink text-paper',
+  // dark sections are transparent: the fixed Cutaway scene (body is ink)
+  // shows through behind the content on desktop
+  dark: 'text-paper',
   light: 'bg-paper text-ink',
 };
 const ghostTone = tone === 'dark' ? 'text-paper/4' : 'text-ink/5';
