@@ -211,12 +211,16 @@ function init() {
 
   // Run each init as its own task after the load event: keeps main-thread
   // work out of the startup window (TBT) and splits it into short tasks.
-  const queue: Array<() => void> = [initHeroIntro, initSmoothScroll, initReveals, initCountUps];
-  // The elevator/car + Build scene are desktop refinements — phones keep it
-  // simple (CLAUDE.md rule 5).
+  const queue: Array<() => void> = [
+    initHeroIntro,
+    initSmoothScroll,
+    initReveals,
+    initCountUps,
+    initBuildScene, // photographic level backdrop runs on all sizes
+  ];
+  // The elevator panel + pointer parallax remain desktop refinements.
   if (window.matchMedia('(min-width: 1024px)').matches) {
     queue.push(initElevator);
-    queue.push(initBuildScene);
     queue.push(initHeroParallax);
   }
   queue.push(() => window.addEventListener('resize', () => ScrollTrigger.refresh()));

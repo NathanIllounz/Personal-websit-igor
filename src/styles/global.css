@@ -102,7 +102,7 @@ html.user-active .hero-lift {
   pointer-events: none;
   background: var(--color-ink);
 }
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) {
   #build-viewport {
     display: block;
   }

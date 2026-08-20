@@ -8,7 +8,7 @@ interface Props {
   site: Site;
 }
 const { site } = Astro.props;
-const letters = site.hero.name.split('');
+const words = site.hero.name.split(' ');
 
 // Sleek sedan, side view, 26x13.5 box (custom-drawn — licensing-safe).
 const CAR_BODY =
@@ -49,7 +49,7 @@ const CAR_WHEELS = [
   <!-- line-art APS rack with cycling lift (parallax layer, desktop only) -->
   <div
     aria-hidden="true"
-    class="hero-diagram pointer-events-none absolute top-28 bottom-8 end-[-40px] hidden w-[420px] opacity-80 xl:block"
+    class="hero-diagram pointer-events-none absolute top-24 bottom-8 end-[-70px] w-[300px] opacity-25 xl:top-28 xl:end-[-40px] xl:w-[420px] xl:opacity-80"
   >
     <svg viewBox="0 0 460 560" fill="none" class="h-full w-full" preserveAspectRatio="xMidYMid meet">
       <!-- bay frame -->
@@ -137,14 +137,17 @@ const CAR_WHEELS = [
       {site.hero.level}
     </p>
 
-    <h1 class="overflow-hidden font-[family-name:var(--font-display)] text-4xl font-bold tracking-[0.12em] text-balance sm:text-6xl">
-      {letters.map((ch) =>
-        ch === ' ' ? (
-          <span class="inline-block w-[0.35em]">&nbsp;</span>
-        ) : (
-          <span class="hero-letter inline-block will-change-transform">{ch}</span>
-        )
-      )}
+    <h1 class="overflow-hidden font-[family-name:var(--font-display)] text-3xl font-bold tracking-[0.12em] text-balance sm:text-6xl">
+      {words.map((word, wi) => (
+        <>
+          {wi > 0 && <span class="inline-block w-[0.35em]">&nbsp;</span>}
+          <span class="inline-block whitespace-nowrap">
+            {word.split('').map((ch) => (
+              <span class="hero-letter inline-block will-change-transform">{ch}</span>
+            ))}
+          </span>
+        </>
+      ))}
     </h1>
     <p data-intro class="mt-6 max-w-2xl text-lg text-concrete-700 sm:text-2xl">{site.hero.title}</p>
     <p data-intro class="mt-4 font-[family-name:var(--font-display)] text-lg font-semibold">
