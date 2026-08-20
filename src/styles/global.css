@@ -135,18 +135,18 @@ html.user-active .hero-lift {
     linear-gradient(to bottom, rgba(17, 18, 20, 0.85), rgba(17, 18, 20, 0.45) 30%, rgba(17, 18, 20, 0.45) 70%, rgba(17, 18, 20, 0.85));
 }
 
-/* Content sits above the scene */
-header,
-main,
-#level-indicator {
+/* Content sits above the scene (#build-viewport is z 0). These rules are
+   unlayered, so they OVERRIDE Tailwind utilities — set the real values here,
+   and never touch `position` (that would break the fixed header/panel). */
+main {
   position: relative;
   z-index: 1;
 }
 header {
-  position: fixed; /* keep header fixed (relative override above must not win) */
+  z-index: 50;
 }
 #level-indicator {
-  position: fixed;
+  z-index: 40;
 }
 
 @media (prefers-reduced-motion: reduce) {
