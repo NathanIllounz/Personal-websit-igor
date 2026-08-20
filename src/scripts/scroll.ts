@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 // Section ids in descent order — must match the page + LevelIndicator.
 const SECTIONS = ['top', 'about', 'manufacturers', 'services', 'why', 'projects', 'contact'];
 
-const HEADER_OFFSET = -56;
+const HEADER_OFFSET = -76; // keep in sync with the fixed header's height
 
 function initSmoothScroll(): Lenis {
   const lenis = new Lenis();

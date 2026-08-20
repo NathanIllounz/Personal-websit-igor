@@ -64,7 +64,7 @@ const largeImages = await Promise.all(
         </dl>
 
         {galleries[i]!.length > 0 && (
-          <ul class="mt-8 grid grid-cols-4 gap-2">
+          <ul class="mt-8 grid grid-cols-3 gap-2 sm:grid-cols-4">
             {galleries[i]!.map((img, j) => {
               const count = galleries[i]!.length;
               const overflow = count > 8 ? count - 8 : 0;
